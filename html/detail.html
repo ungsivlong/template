@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.10.0/css/mdb.min.css" rel="stylesheet">
+</head>
+<body>
+   <div class="container-fluid">
+
+   </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+  <script>
+      $(function(){
+          console.log(window.location.href)
+          let url = window.location.href.split('?')
+          let id = url[1].substr(3, url[1].length-3)
+          viewDetail(id)
+
+      })
+      function viewDetail(aid){
+          $.ajax({
+              url: `http://110.74.194.124:15011/v1/api/articles/${aid}`,
+              method: 'get',
+              success: function(res){
+                showJumbotron(res.DATA)
+              },
+              error: function(er){
+                  console.log(er)
+              }
+          })
+      }
+      function showJumbotron(article){
+        let content = `
+        <div class="jumbotron text-center">
+
+        <!-- Title -->
+        <h4 class="card-title h4 pb-2"><strong>${article.TITLE}</strong></h4>
+
+        <!-- Card image -->
+        <div class="view overlay my-4">
+        <img src=${article.IMAGE} class="img-fluid" alt="">
+        <a href="#">
+            <div class="mask rgba-white-slight"></div>
+        </a>
+        </div>
+
+        <h5 class="indigo-text h5 mb-4">Photography</h5>
+
+        <p class="card-text">Sed ut perspiciatis unde omnis iste natus sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+
+        <!-- Linkedin -->
+        <a class="fa-lg p-2 m-2 li-ic"><i class="fab fa-linkedin-in grey-text"></i></a>
+        <!-- Twitter -->
+        <a class="fa-lg p-2 m-2 tw-ic"><i class="fab fa-twitter grey-text"></i></a>
+        <!-- Dribbble -->
+        <a class="fa-lg p-2 m-2 fb-ic"><i class="fab fa-facebook-f grey-text"></i></a>
+
+        </div>
+        
+        `
+        $('.container-fluid').html(content)
+      }
+  </script>
+</body>
+</html>
